@@ -17,3 +17,5 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true
+    - name: Release
+      uses: actions/create-release@v1
