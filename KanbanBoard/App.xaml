@@ -1,0 +1,28 @@
+﻿<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="KanbanBoard.App">
+    <Application.Styles>
+        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
+        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml"/>
+
+        <Style Selector="Window">
+            <Setter Property="Background" Value="Black" />
+            <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style Selector="MenuItem">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style Selector="MenuItem.selected">
+            <Setter Property="Background" Value="Black" />
+            <Setter Property="FontWeight" Value="ExtraBlack" />
+        </Style>
+    </Application.Styles>
+
+    <Application.Resources>
+        <SolidColorBrush x:Key="ChromeBlackMedium">#2B2B2B</SolidColorBrush>
+        <SolidColorBrush x:Key="ChromeHigh">#767676</SolidColorBrush>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <AvaloniaResource Include="**\*.xaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Remove="AddBoardWindow.xaml" />
+    <AvaloniaResource Remove="AddColumnWindow.xaml" />
+    <AvaloniaResource Remove="AddTaskWindow.xaml" />
+    <AvaloniaResource Remove="ColumnUserControl.xaml" />
+    <AvaloniaResource Remove="MessageBoxWindow.xaml" />
+    <AvaloniaResource Remove="TagUserControl.xaml" />
+    <AvaloniaResource Remove="TaskUserControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="AddBoardWindow.xaml" />
+    <None Remove="AddColumnWindow.xaml" />
+    <None Remove="AddTaskWindow.xaml" />
+    <None Remove="ColumnUserControl.xaml" />
+    <None Remove="MessageBoxWindow.xaml" />
+    <None Remove="TagUserControl.xaml" />
+    <None Remove="TaskUserControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.9.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.0" />
+    <PackageReference Include="LiteDB" Version="5.0.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MessageBoxWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AddBoardWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ColumnUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TaskUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TagUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AddColumnWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AddTaskWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

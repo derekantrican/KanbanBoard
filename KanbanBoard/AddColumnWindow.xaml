@@ -1,0 +1,26 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="KanbanBoard.AddColumnWindow"
+        Title=""
+        WindowStartupLocation="CenterOwner"
+        HasSystemDecorations="False"
+        Width="400"
+        Height="260">
+    <Border BorderBrush="{DynamicResource ChromeBlackMedium}" BorderThickness="2.2" Padding="16">
+        <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, *">
+            <TextBlock Name="textBlockTitle" FontSize="24" FontWeight="Light" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 8">
+                Add Column
+            </TextBlock>
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 12">
+                <TextBlock Margin="0, 0, 0, 8" FontWeight="Bold">Name</TextBlock>
+                <TextBox Name="textBoxName" Watermark="Enter column name here" Margin="0, 0, 0, 8" />
+                <TextBlock Margin="0, 0, 0, 8" FontWeight="Bold">Maximum Task</TextBlock>
+                <NumericUpDown Name="numericUpDownMaximumTask" Margin="0, 0, 0, 8" />
+            </StackPanel>
+            <Button Name="buttonAdd" Grid.Row="2" Grid.Column="0" Margin="0, 0, 4, 0">Add</Button>
+            <Button Name="buttonCancel" Grid.Row="2" Grid.Column="1" Margin="4, 0, 0, 0">Cancel</Button>
+        </Grid>
+    </Border>
+</Window>

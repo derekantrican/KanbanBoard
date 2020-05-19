@@ -1,0 +1,24 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="KanbanBoard.MessageBoxWindow"
+        Width="400"
+        Height="150"
+        Title=""
+        WindowStartupLocation="CenterOwner"
+        HasSystemDecorations="False">
+
+    <Border BorderBrush="{DynamicResource ChromeBlackMedium}" BorderThickness="2.2" Padding="16">
+        <Grid RowDefinitions="*, *, Auto" ColumnDefinitions="*, *">
+            <TextBlock Name="textBlockTitle" FontSize="24" FontWeight="Light" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 8">
+                Title
+            </TextBlock>
+            <TextBlock Name="textBlockBody" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 12">
+                Body
+            </TextBlock>
+            <Button Name="buttonYes" Grid.Row="2" Grid.Column="0" Margin="0, 0, 4, 0">Yes</Button>
+            <Button Name="buttonNo" Grid.Row="2" Grid.Column="1" Margin="4, 0, 0, 0">No</Button>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,40 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="KanbanBoard.ColumnUserControl"
+             Padding="16">
+
+    <UserControl.Styles>
+        <Style Selector="Grid > TextBlock">
+            <Setter Property="FontSize" Value="34" />
+            <Setter Property="FontWeight" Value="ExtraLight" />
+        </Style>
+        <Style Selector="Grid > Button">
+            <Setter Property="FontSize" Value="34" />
+            <Setter Property="FontWeight" Value="ExtraLight" />
+        </Style>
+    </UserControl.Styles>
+    
+    <StackPanel Orientation="Vertical" Spacing="10">
+        <Grid RowDefinitions="Auto" ColumnDefinitions="Auto, *, Auto, Auto, Auto, Auto">
+            <TextBlock Name="textBlockTitle" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                Title
+            </TextBlock>
+            <TextBlock Name="textBlockWorkCount" Grid.Row="0" Grid.Column="3" Margin="16, 0, 32, 0">
+                x / y
+            </TextBlock>
+            <Button Name="buttonEdit" Grid.Row="0" Grid.Column="4" Margin="0, 0, 4, 0" Background="Black" BorderThickness="0">
+                
+            </Button>
+            <Button Name="buttonDelete" Grid.Row="0" Grid.Column="5" Margin="0, 0, 8, 0" Background="Black" BorderThickness="0">
+                
+            </Button>
+        </Grid>
+        
+        <StackPanel Name="stackPanelTask" Orientation="Vertical" VerticalAlignment="Top" Spacing="10" />
+
+        <Button Name="buttonAddTask">Add Task</Button>
+    </StackPanel>
+    
+</UserControl>
