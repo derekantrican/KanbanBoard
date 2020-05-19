@@ -15,7 +15,5 @@ jobs:
         dotnet-version: 3.1.101
     - name: Install dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true
-    - name: Release
-      uses: actions/create-release@v1
+    - name: Deploy
+      run: dotnet publish -r win-x64 -c Release -o Deploy /p:PublishSingleFile=true
