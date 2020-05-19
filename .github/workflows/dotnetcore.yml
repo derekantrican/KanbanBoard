@@ -15,5 +15,14 @@ jobs:
         dotnet-version: 3.1.101
     - name: Install dependencies
       run: dotnet restore
-    - name: Deploy
-      run: dotnet publish -r win-x64 -c Release -o Deploy /p:PublishSingleFile=true
+    - name: Build
+      run: dotnet publish -r win-x64 -c Release -o release /p:PublishSingleFile=true
+    - name: Switch to release folder
+      run: |
+        cd release
+        dir
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        REPO_OWNER: Ayajatra
