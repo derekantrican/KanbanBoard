@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:Class="KanbanBoard.ColumnUserControl"
-             Padding="16">
+             Padding="16" DragDrop.AllowDrop="True">
 
     <UserControl.Styles>
         <Style Selector="Grid > TextBlock">

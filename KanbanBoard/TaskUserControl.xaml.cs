@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using KanbanBoard.Models;
 using System;
@@ -9,8 +10,8 @@ namespace KanbanBoard
 {
     public class TaskUserControl : UserControl
     {
-        TaskModel task;
-        ColumnModel column;
+        public TaskModel task;
+        public ColumnModel column;
         Action<TaskUserControl> delete;
         TextBlock textBlockTitle;
         Button buttonEdit;
@@ -78,6 +79,20 @@ namespace KanbanBoard
         {
             stackPanelTag.Children.Clear();
             stackPanelTag.Children.AddRange(task.Tags.Select(x => new TagUserControl(x)));
+        }
+
+        protected override void OnPointerMoved(PointerEventArgs e)
+        {
+            base.OnPointerMoved(e);
+
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            {
+                DataObject data = new DataObject();
+                data.Set("task", this);
+
+                DragDrop.DoDragDrop(e, data, DragDropEffects.Move);
+            }
+
         }
     }
 }

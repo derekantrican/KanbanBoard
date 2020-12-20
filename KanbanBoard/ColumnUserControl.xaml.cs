@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using KanbanBoard.Models;
@@ -19,6 +20,8 @@ namespace KanbanBoard
         public ColumnUserControl()
         {
             this.InitializeComponent();
+
+            AddHandler(DragDrop.DropEvent, OnDrop);
         }
 
         public ColumnUserControl(ColumnModel column, Action<ColumnUserControl> delete) : this()
@@ -74,6 +77,8 @@ namespace KanbanBoard
                 if (result != null)
                 {
                     column.Tasks.Add(result);
+                    Common.SerializeBoards();
+
                     RefreshTask();
                     RefreshWorkCount();
                 }
@@ -96,11 +101,32 @@ namespace KanbanBoard
             }
         }
 
-        private void RefreshTask()
+        public void RefreshTask()
         {
             stackPanelTask.Children.Clear();
             stackPanelTask.Children.AddRange(column.Tasks
                 .Select(x => new TaskUserControl(x, column, (y) => stackPanelTask.Children.Remove(y))));
+        }
+
+        private void OnDrop(object sender, DragEventArgs e)
+        {
+            TaskUserControl task = e.Data.Get("task") as TaskUserControl;
+            task.column.Tasks.Remove(task.task);
+
+            IControl parent = task.Parent;
+            while (parent != null && !(parent is ColumnUserControl))
+            {
+                parent = parent.Parent;
+            }
+
+            (parent as ColumnUserControl).RefreshTask();
+
+            this.column.Tasks.Add(task.task);
+
+            Common.SerializeBoards();
+
+            RefreshTask();
+            RefreshWorkCount();
         }
     }
 }
