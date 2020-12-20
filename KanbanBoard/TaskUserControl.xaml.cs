@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using KanbanBoard.Models;
-using LiteDB;
 using System;
 using System.Linq;
 
@@ -10,10 +9,9 @@ namespace KanbanBoard
 {
     public class TaskUserControl : UserControl
     {
-        LiteDatabase db;
         TaskModel task;
+        ColumnModel column;
         Action<TaskUserControl> delete;
-        ILiteCollection<TaskModel> taskCollection;
         TextBlock textBlockTitle;
         Button buttonEdit;
         Button buttonDelete;
@@ -25,12 +23,11 @@ namespace KanbanBoard
             this.InitializeComponent();
         }
 
-        public TaskUserControl(ref LiteDatabase db, ref TaskModel task, Action<TaskUserControl> delete) : this()
+        public TaskUserControl(TaskModel task, ColumnModel column, Action<TaskUserControl> delete) : this()
         {
-            this.db = db;
             this.task = task;
+            this.column = column;
             this.delete = delete;
-            taskCollection = db.GetCollection<TaskModel>();
 
             textBlockTitle.Text = task.Name;
             textBlockDescription.Text = task.Description;
@@ -54,7 +51,9 @@ namespace KanbanBoard
                 var result = await addTask.ShowDialog<TaskModel>(Application.Current.ApplicationLifetime.GetMainWindow());
                 if (result != null)
                 {
-                    taskCollection.Update(result);
+                    column.Tasks.Insert(column.Tasks.IndexOf(task), result);
+                    Common.SerializeBoards();
+
                     textBlockTitle.Text = result.Name;
                     textBlockDescription.Text = result.Description;
                     RefreshTag();
@@ -67,7 +66,9 @@ namespace KanbanBoard
                 var result = await messageBox.ShowDialog<string>(Application.Current.ApplicationLifetime.GetMainWindow());
                 if (result == "Yes")
                 {
-                    taskCollection.Delete(task.Id);
+                    column.Tasks.Remove(task);
+                    Common.SerializeBoards();
+
                     delete(this);
                 }
             };

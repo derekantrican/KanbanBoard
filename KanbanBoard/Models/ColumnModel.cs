@@ -1,12 +1,13 @@
-﻿using LiteDB;
+﻿using System;
+using System.Collections.Generic;
 
 namespace KanbanBoard.Models
 {
     public class ColumnModel
     {
-        public ObjectId Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
         public int MaxTask { get; set; }
-        public ObjectId BoardModelId { get; set; }
+        public List<TaskModel> Tasks { get; set; } = new List<TaskModel>();
     }
 }

@@ -4,18 +4,17 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
 using KanbanBoard.Models;
-using LiteDB;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace KanbanBoard
 {
     public class MainWindow : Window
     {
-        LiteDatabase db = Database.Connect();
-        ILiteCollection<BoardModel> boardCollection;
-        ILiteCollection<ColumnModel> columnCollection;
         MenuItem menuItemAdd;
-        ObjectId currentBoardId;
         Button buttonAddColumn;
         StackPanel stackPanelColumn;
         MenuItem menuItemBoardEdit;
@@ -34,8 +33,7 @@ namespace KanbanBoard
         {
             AvaloniaXamlLoader.Load(this);
 
-            boardCollection = db.GetCollection<BoardModel>();
-            columnCollection = db.GetCollection<ColumnModel>();
+            Common.DeserializeBoards();
 
             menuItemAdd = new MenuItem { Header = "" };
             menuItemAdd.Click += async (sender, e) =>
@@ -44,7 +42,8 @@ namespace KanbanBoard
                 var result = await addBoard.ShowDialog<BoardModel>(this);
                 if (result != null)
                 {
-                    currentBoardId = boardCollection.Insert(result);
+                    Common.Boards.Add(result);
+                    Common.CurrentBoard = result;
                     RefreshMenuBoard();
                 }
             };
@@ -52,12 +51,13 @@ namespace KanbanBoard
             menuItemBoardEdit = this.FindControl<MenuItem>("menuItemBoardEdit");
             menuItemBoardEdit.Click += async (sender, e) =>
             {
-                var board = boardCollection.FindById(currentBoardId);
-                var addBoard = new AddBoardWindow(ref board);
+                var addBoard = new AddBoardWindow(ref Common.CurrentBoard);
                 var result = await addBoard.ShowDialog<BoardModel>(this);
                 if (result != null)
                 {
-                    boardCollection.Update(result);
+                    Common.Boards.Insert(Common.Boards.IndexOf(Common.CurrentBoard), result);
+                    Common.SerializeBoards();
+
                     RefreshMenuBoard();
                 }
             };
@@ -69,8 +69,10 @@ namespace KanbanBoard
                 var result = await messageBox.ShowDialog<string>(this);
                 if (result == "Yes")
                 {
-                    boardCollection.Delete(currentBoardId);
-                    currentBoardId = null;
+                    Common.Boards.Remove(Common.CurrentBoard);
+                    Common.SerializeBoards();
+
+                    Common.CurrentBoard = null;
                     RefreshMenuBoard();
                     stackPanelColumn.Children.Clear();
                     buttonAddColumn.IsVisible = false;
@@ -84,8 +86,9 @@ namespace KanbanBoard
                 var result = await addColumn.ShowDialog<ColumnModel>(this);
                 if (result != null)
                 {
-                    result.BoardModelId = currentBoardId;
-                    columnCollection.Insert(result);
+                    Common.CurrentBoard.Columns.Add(result);
+                    Common.SerializeBoards();
+
                     RefreshColumn();
                 }
             };
@@ -93,18 +96,17 @@ namespace KanbanBoard
             stackPanelColumn = this.FindControl<StackPanel>("stackPanelColumn");
 
             RefreshMenuBoard();   
-        }
+        } 
 
         private void RefreshMenuBoard()
         {
             var menuBoard = this.FindControl<Menu>("menuBoard");
-            var menuItems = boardCollection.FindAll()
-                .OrderBy(x => x.Id)
+            var menuItems = Common.Boards
                 .Select(board =>
                 {
                     var menuItem = new MenuItem { Name = board.Id.ToString(), Header = board.Name };
                     menuItem.Click += menuBoardItemClick;
-                    if (currentBoardId != null && currentBoardId == board.Id)
+                    if (Common.CurrentBoard != null && Common.CurrentBoard.Id == board.Id)
                     {
                         menuItem.Classes.Add("selected");
                         buttonAddColumn.IsVisible = true;
@@ -138,7 +140,7 @@ namespace KanbanBoard
             }
 
             source.Classes.Add("selected");
-            currentBoardId = new ObjectId(source.Name);
+            Common.CurrentBoard = Common.Boards.FirstOrDefault(b => b.Id == new Guid(source.Name));
             buttonAddColumn.IsVisible = true;
             menuItemBoardEdit.IsVisible = true;
             menuItemBoardDelete.IsVisible = true;
@@ -148,11 +150,8 @@ namespace KanbanBoard
         private void RefreshColumn()
         {
             stackPanelColumn.Children.Clear();
-            columnCollection.EnsureIndex(x => x.BoardModelId);
-            stackPanelColumn.Children.AddRange(columnCollection
-                .Find(x => x.BoardModelId == currentBoardId)
-                .OrderBy(x => x.Id)
-                .Select(x => new ColumnUserControl(ref db, ref x, (y) => stackPanelColumn.Children.Remove(y))));
+            stackPanelColumn.Children.AddRange(Common.CurrentBoard.Columns
+                .Select(x => new ColumnUserControl(x, (y) => stackPanelColumn.Children.Remove(y))));
         }
     }
 }

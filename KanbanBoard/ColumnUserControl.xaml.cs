@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using KanbanBoard.Models;
-using LiteDB;
 using System;
 using System.Linq;
 
@@ -11,11 +10,8 @@ namespace KanbanBoard
 {
     public class ColumnUserControl : UserControl
     {
-        LiteDatabase db;
         ColumnModel column;
         Action<ColumnUserControl> delete;
-        ILiteCollection<TaskModel> taskCollection;
-        ILiteCollection<ColumnModel> columnCollection;
         TextBlock textBlockTitle;
         TextBlock textBlockWorkCount;
         StackPanel stackPanelTask;
@@ -25,14 +21,11 @@ namespace KanbanBoard
             this.InitializeComponent();
         }
 
-        public ColumnUserControl(ref LiteDatabase db, ref ColumnModel column, Action<ColumnUserControl> delete) : this()
+        public ColumnUserControl(ColumnModel column, Action<ColumnUserControl> delete) : this()
         {
-            this.db = db;
             this.column = column;
             this.delete = delete;
 
-            taskCollection = db.GetCollection<TaskModel>();
-            columnCollection = db.GetCollection<ColumnModel>();
             textBlockTitle.Text = column.Name;
 
             RefreshWorkCount();
@@ -53,7 +46,9 @@ namespace KanbanBoard
                 var result = await addColumn.ShowDialog<ColumnModel>(Application.Current.ApplicationLifetime.GetMainWindow());
                 if (result != null)
                 {
-                    columnCollection.Update(result);
+                    Common.CurrentBoard.Columns.Insert(Common.CurrentBoard.Columns.IndexOf(column), result);
+                    Common.SerializeBoards();
+
                     textBlockTitle.Text = result.Name;
                     RefreshWorkCount();
                 }
@@ -65,7 +60,9 @@ namespace KanbanBoard
                 var result = await messageBox.ShowDialog<string>(Application.Current.ApplicationLifetime.GetMainWindow());
                 if (result == "Yes")
                 {
-                    columnCollection.Delete(column.Id);
+                    Common.CurrentBoard.Columns.Remove(column);
+                    Common.SerializeBoards();
+
                     delete(this);
                 }
             };
@@ -76,9 +73,7 @@ namespace KanbanBoard
                 var result = await addTask.ShowDialog<TaskModel>(Application.Current.ApplicationLifetime.GetMainWindow());
                 if (result != null)
                 {
-                    result.ColumnModelId = column.Id;
-
-                    taskCollection.Insert(result);
+                    column.Tasks.Add(result);
                     RefreshTask();
                     RefreshWorkCount();
                 }
@@ -87,7 +82,7 @@ namespace KanbanBoard
 
         private void RefreshWorkCount()
         {
-            var taskCount = taskCollection.Count(x => x.ColumnModelId == column.Id);
+            var taskCount = column.Tasks.Count;
             textBlockWorkCount.Text = $"{taskCount} / {column.MaxTask}";
             if (taskCount > column.MaxTask)
             {
@@ -104,11 +99,8 @@ namespace KanbanBoard
         private void RefreshTask()
         {
             stackPanelTask.Children.Clear();
-            taskCollection.EnsureIndex(x => x.ColumnModelId);
-            stackPanelTask.Children.AddRange(taskCollection
-                .Find(x => x.ColumnModelId == column.Id)
-                .OrderBy(x => x.Id)
-                .Select(x => new TaskUserControl(ref db, ref x, (y) => stackPanelTask.Children.Remove(y))));
+            stackPanelTask.Children.AddRange(column.Tasks
+                .Select(x => new TaskUserControl(x, column, (y) => stackPanelTask.Children.Remove(y))));
         }
     }
 }
