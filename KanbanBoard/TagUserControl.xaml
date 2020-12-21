@@ -2,8 +2,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:KanbanBoard.Converters"
              x:Class="KanbanBoard.TagUserControl"
-             Padding="8"
-             Background="{DynamicResource ChromeHigh}">
-    <TextBlock Text="{Binding Name}"/>
+             Padding="8">
+  <UserControl.Resources>
+    <converters:ColorBrushConverter x:Key="BrushConverter"/>
+    <converters:ContrastingColorConverter x:Key="ContrastingColor"/>
+  </UserControl.Resources>
+  <!--Todo: TextBlock should have padding (instead of UserControl), but it's not available 
+  until the next version of Avalonia-->
+  <TextBlock Text="{Binding Name}"
+             Background="{Binding Color, Converter={StaticResource BrushConverter}}"
+             Foreground="{Binding Color, Converter={StaticResource ContrastingColor}}"/>
 </UserControl>

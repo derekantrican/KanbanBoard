@@ -1,5 +1,6 @@
 ﻿using KanbanBoard.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -96,6 +97,12 @@ namespace KanbanBoard.ViewModels
                     Parent.DeleteTask(this);
                 }
             }
+        }
+
+        public void SetTags(ObservableCollection<TagViewModel> tags)
+        {
+            Model.Tags = tags.Select(t => t.Model).ToList();
+            Tags = tags;
         }
     }
 }

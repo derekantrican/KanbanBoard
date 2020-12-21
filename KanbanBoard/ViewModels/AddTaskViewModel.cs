@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace KanbanBoard.ViewModels
 {
@@ -70,11 +71,26 @@ namespace KanbanBoard.ViewModels
         {
             get
             {
-                return string.Join(",", task.Tags.Select(t => t.Name));
+                return string.Join(",", task.Tags.Select(t => 
+                {
+                    if (t.Color.Convert().IsEmpty || t.Color.Convert().Equals(System.Drawing.Color.LightGray)) //LightGray is default
+                        return t.Name;
+                    else
+                    {
+                        return $"{t.Name} ({t.Color.Convert().GetHexCode(true)})";
+                    }
+                }));
             }
             set
             {
-                task.Tags = new ObservableCollection<TagViewModel>(value?.Split(',')?.Select(t => new TagViewModel { Name = t }) ?? new List<TagViewModel>());
+                task.SetTags(new ObservableCollection<TagViewModel>(value?.Split(',')?.Select(t =>
+                {
+                    Match color = Regex.Match(t, @"\((?<color>#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{8}){1,2})\)");
+                    if (color.Success)
+                        return new TagViewModel { Name = t.Replace(color.Value, "").Trim(), Color = System.Drawing.ColorTranslator.FromHtml(color.Groups["color"].Value).Convert() };
+                    else
+                        return new TagViewModel { Name = t };
+                }) ?? new List<TagViewModel>()));
                 FirePropertyChanged();
             }
         }

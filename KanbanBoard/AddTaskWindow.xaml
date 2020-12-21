@@ -8,20 +8,23 @@
         HasSystemDecorations="False"
         Width="400"
         Height="410">
-    <Border BorderBrush="{DynamicResource ChromeBlackMedium}" BorderThickness="2.2" Padding="16">
-        <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,*">
-            <TextBlock FontSize="24" FontWeight="Light" Grid.ColumnSpan="2" Text="{Binding Title}" Margin="0,0,0,8"/>
-            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,12">
-                <TextBlock Text="Name" FontWeight="Bold" Margin="0,0,0,8"/>
-                <TextBox Watermark="Enter task name here" Text="{Binding Name}" Margin="0,0,0,8" />
-                <TextBlock FontWeight="Bold" Text="Description" Margin="0,0,0,8"/>
-                <TextBox Watermark="Enter description here" TextWrapping="Wrap" AcceptsReturn="True" 
-                         Text="{Binding Description}" Height="120" Margin="0,0,0,8" />
-                <TextBlock FontWeight="Bold" Text="Tags" Margin="0,0,0,8"/>
-                <TextBox Watermark="Enter tags here (separated by comma)" Text="{Binding Tags}" Margin="0,0,0,8" />
-            </StackPanel>
-            <Button Grid.Row="2" Content="{Binding SaveButtonText}" Command="{Binding Save}" Margin="0,0,4,0"/>
-            <Button Grid.Row="2" Grid.Column="1" Content="Cancel" Command="{Binding Cancel}" Margin="4,0,0,0"/>
-        </Grid>
-    </Border>
+  <Border BorderBrush="{DynamicResource ChromeBlackMedium}" BorderThickness="2.2" Padding="16">
+    <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,*">
+      <TextBlock FontSize="24" FontWeight="Light" Grid.ColumnSpan="2" Text="{Binding Title}" Margin="0,0,0,8"/>
+      <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,12">
+        <TextBlock Text="Name" FontWeight="Bold" Margin="0,0,0,8"/>
+        <TextBox Watermark="Enter task name here" Text="{Binding Name}" Margin="0,0,0,8" />
+        <TextBlock FontWeight="Bold" Text="Description" Margin="0,0,0,8"/>
+        <TextBox Watermark="Enter description here" TextWrapping="Wrap" AcceptsReturn="True"
+                 Text="{Binding Description}" Height="120" Margin="0,0,0,8" />
+        <StackPanel Orientation="Horizontal">
+          <TextBlock FontWeight="Bold" Text="Tags" Margin="0,0,0,8"/>
+          <TextBlock Text=" (optionally add hex colors in parentheses)" FontStyle="Italic" Margin="0,0,0,8"/>
+        </StackPanel>
+        <TextBox Watermark="Enter tags here (separated by commas)" Text="{Binding Tags}" Margin="0,0,0,8" />
+      </StackPanel>
+      <Button Grid.Row="2" Content="{Binding SaveButtonText}" Command="{Binding Save}" Margin="0,0,4,0"/>
+      <Button Grid.Row="2" Grid.Column="1" Content="Cancel" Command="{Binding Cancel}" Margin="4,0,0,0"/>
+    </Grid>
+  </Border>
 </Window>

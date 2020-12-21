@@ -1,4 +1,5 @@
-﻿using KanbanBoard.Models;
+﻿using Avalonia.Media;
+using KanbanBoard.Models;
 
 namespace KanbanBoard.ViewModels
 {
@@ -26,6 +27,19 @@ namespace KanbanBoard.ViewModels
             set
             {
                 Model.Name = value;
+                FirePropertyChanged();
+            }
+        }
+
+        public Color Color
+        {
+            get
+            {
+                return Model.Color;
+            }
+            set
+            {
+                Model.Color = value;
                 FirePropertyChanged();
             }
         }
