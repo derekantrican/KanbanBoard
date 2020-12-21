@@ -2,24 +2,55 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KanbanBoard"
+        xmlns:converters="clr-namespace:KanbanBoard.Converters"
         x:Class="KanbanBoard.MainWindow"
         Title="Kanban Board"
         WindowState="Maximized">
-    
-    <DockPanel>
-        <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" RowDefinitions="Auto" Background="{DynamicResource ChromeBlackMedium}">
-            <Menu Name="menuBoard" Grid.Column="0" Grid.Row="0" />
-            <Menu Name="menuBoardSetting" Grid.Column="1" Grid.Row="0">
-                <MenuItem Name="menuItemBoardEdit" Header="" />
-                <MenuItem Name="menuItemBoardDelete" Header="" />
-            </Menu>
-        </Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <StackPanel Spacing="10" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <StackPanel Name="stackPanelColumn" Orientation="Horizontal" />
-                <Button Name="buttonAddColumn" IsVisible="False" VerticalAlignment="Top">Add Column</Button>
-            </StackPanel>
-        </ScrollViewer>
-    </DockPanel>
-    
+  <Window.Resources>
+    <converters:IsNotNullConverter x:Key="NotNullConverter"/>
+  </Window.Resources>
+  <DockPanel>
+    <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" RowDefinitions="Auto" Background="{DynamicResource ChromeBlackMedium}">
+      <TabControl Items="{Binding Boards}" SelectedItem="{Binding SelectedBoard}">
+        <TabControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Name}"/>
+          </DataTemplate>
+        </TabControl.ItemTemplate>
+        <TabControl.ContentTemplate>
+          <DataTemplate>
+            <!--Empty to set TabItem content as empty-->
+            <Panel />
+          </DataTemplate>
+        </TabControl.ContentTemplate>
+      </TabControl>
+      <Menu Grid.Column="1">
+        <MenuItem Command="{Binding Add}" Header="+"/>
+        <MenuItem Command="{Binding Edit}" Header=""
+                  IsVisible="{Binding SelectedBoard, Converter={StaticResource NotNullConverter}}"/>
+        <MenuItem Command="{Binding Delete}" Header=""
+                  IsVisible="{Binding SelectedBoard, Converter={StaticResource NotNullConverter}}"/>
+      </Menu>
+    </Grid>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+      <StackPanel Spacing="10" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <ItemsControl Items="{Binding SelectedBoard.Columns}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <local:ColumnUserControl DataContext="{Binding .}"/>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button Content="Add Column" VerticalAlignment="Top" Command="{Binding AddColumn}"
+                IsVisible="{Binding SelectedBoard, Converter={StaticResource NotNullConverter}}"
+                Margin="5"/>
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
 </Window>

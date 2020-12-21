@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using KanbanBoard.ViewModels;
 
 namespace KanbanBoard
 {
@@ -14,24 +15,15 @@ namespace KanbanBoard
 #endif
         }
 
-        public MessageBoxWindow(string title, string body) : this()
+        public MessageBoxWindow(MessageBoxViewModel viewModel) : this()
         {
-            this.FindControl<TextBlock>("textBlockTitle").Text = title;
-            this.FindControl<TextBlock>("textBlockBody").Text = body;
+            this.DataContext = viewModel;
+            viewModel.CloseDialog += (result) => Close(result);
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            this.FindControl<Button>("buttonYes").Click += (sender, e) =>
-            {
-                Close("Yes");
-            };
-
-            this.FindControl<Button>("buttonNo").Click += (sender, e) =>
-            {
-                Close("No");
-            };
         }
     }
 }

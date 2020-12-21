@@ -9,20 +9,19 @@
         Width="400"
         Height="410">
     <Border BorderBrush="{DynamicResource ChromeBlackMedium}" BorderThickness="2.2" Padding="16">
-        <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, *">
-            <TextBlock Name="textBlockTitle" FontSize="24" FontWeight="Light" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 8">
-                Add Task
-            </TextBlock>
-            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 12">
-                <TextBlock Margin="0, 0, 0, 8" FontWeight="Bold">Name</TextBlock>
-                <TextBox Name="textBoxName" Watermark="Enter task name here" Margin="0, 0, 0, 8" />
-                <TextBlock Margin="0, 0, 0, 8" FontWeight="Bold">Description</TextBlock>
-                <TextBox Name="textBoxDescription" Watermark="Enter description here" TextWrapping="Wrap" AcceptsReturn="True" Height="120" Margin="0, 0, 0, 8" />
-                <TextBlock Margin="0, 0, 0, 8" FontWeight="Bold">Tags</TextBlock>
-                <TextBox Name="textBoxTags" Watermark="Enter tags here (separated by comma)" Margin="0, 0, 0, 8" />
+        <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,*">
+            <TextBlock FontSize="24" FontWeight="Light" Grid.ColumnSpan="2" Text="{Binding Title}" Margin="0,0,0,8"/>
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,12">
+                <TextBlock Text="Name" FontWeight="Bold" Margin="0,0,0,8"/>
+                <TextBox Watermark="Enter task name here" Text="{Binding Name}" Margin="0,0,0,8" />
+                <TextBlock FontWeight="Bold" Text="Description" Margin="0,0,0,8"/>
+                <TextBox Watermark="Enter description here" TextWrapping="Wrap" AcceptsReturn="True" 
+                         Text="{Binding Description}" Height="120" Margin="0,0,0,8" />
+                <TextBlock FontWeight="Bold" Text="Tags" Margin="0,0,0,8"/>
+                <TextBox Watermark="Enter tags here (separated by comma)" Text="{Binding Tags}" Margin="0,0,0,8" />
             </StackPanel>
-            <Button Name="buttonAdd" Grid.Row="2" Grid.Column="0" Margin="0, 0, 4, 0">Add</Button>
-            <Button Name="buttonCancel" Grid.Row="2" Grid.Column="1" Margin="4, 0, 0, 0">Cancel</Button>
+            <Button Grid.Row="2" Content="{Binding SaveButtonText}" Command="{Binding Save}" Margin="0,0,4,0"/>
+            <Button Grid.Row="2" Grid.Column="1" Content="Cancel" Command="{Binding Cancel}" Margin="4,0,0,0"/>
         </Grid>
     </Border>
 </Window>

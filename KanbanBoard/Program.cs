@@ -1,8 +1,5 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia;
 using Avalonia.Logging.Serilog;
-using KanbanBoard.Models;
 
 namespace KanbanBoard
 {
@@ -20,6 +17,7 @@ namespace KanbanBoard
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToDebug();
+                .LogToDebug()
+                .With(new AvaloniaNativePlatformOptions { UseGpu = false });
     }
 }

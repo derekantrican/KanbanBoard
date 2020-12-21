@@ -2,83 +2,46 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using KanbanBoard.Models;
+using KanbanBoard.ViewModels;
 using System;
-using System.Linq;
 
 namespace KanbanBoard
 {
     public class TaskUserControl : UserControl
     {
-        public TaskModel task;
-        public ColumnModel column;
-        Action<TaskUserControl> delete;
-        TextBlock textBlockTitle;
-        Button buttonEdit;
-        Button buttonDelete;
-        TextBlock textBlockDescription;
-        StackPanel stackPanelTag;
-
         public TaskUserControl()
         {
             this.InitializeComponent();
+
+            this.DataContextChanged += TaskUserControl_DataContextChanged;
         }
 
-        public TaskUserControl(TaskModel task, ColumnModel column, Action<TaskUserControl> delete) : this()
+        private void TaskUserControl_DataContextChanged(object sender, EventArgs e)
         {
-            this.task = task;
-            this.column = column;
-            this.delete = delete;
+            TaskViewModel viewModel = DataContext as TaskViewModel;
 
-            textBlockTitle.Text = task.Name;
-            textBlockDescription.Text = task.Description;
+            if (viewModel.OpenEditTaskDialog == null)
+            {
+                viewModel.OpenEditTaskDialog += (task) =>
+                {
+                    AddTaskWindow editTask = new AddTaskWindow(new AddTaskViewModel(task));
+                    return editTask.ShowDialogSync<TaskViewModel>(Application.Current.ApplicationLifetime.GetMainWindow());
+                };
+            }
 
-            RefreshTag();
+            if (viewModel.ShowMessageDialog == null)
+            {
+                viewModel.ShowMessageDialog += (title, message) =>
+                {
+                    MessageBoxWindow messageBox = new MessageBoxWindow(new MessageBoxViewModel(title, message));
+                    return messageBox.ShowDialogSync<string>(Application.Current.ApplicationLifetime.GetMainWindow());
+                };
+            }
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-
-            textBlockTitle = this.FindControl<TextBlock>("textBlockTitle");
-            buttonEdit = this.FindControl<Button>("buttonEdit");
-            buttonDelete = this.FindControl<Button>("buttonDelete");
-            textBlockDescription = this.FindControl<TextBlock>("textBlockDescription");
-            stackPanelTag = this.FindControl<StackPanel>("stackPanelTag");
-
-            buttonEdit.Click += async (sender, e) =>
-            {
-                var addTask = new AddTaskWindow(ref task);
-                var result = await addTask.ShowDialog<TaskModel>(Application.Current.ApplicationLifetime.GetMainWindow());
-                if (result != null)
-                {
-                    column.Tasks.Insert(column.Tasks.IndexOf(task), result);
-                    Common.SerializeBoards();
-
-                    textBlockTitle.Text = result.Name;
-                    textBlockDescription.Text = result.Description;
-                    RefreshTag();
-                }
-            };
-
-            buttonDelete.Click += async (sender, e) =>
-            {
-                var messageBox = new MessageBoxWindow("Confirmation", "Are you sure you want to delete this task?");
-                var result = await messageBox.ShowDialog<string>(Application.Current.ApplicationLifetime.GetMainWindow());
-                if (result == "Yes")
-                {
-                    column.Tasks.Remove(task);
-                    Common.SerializeBoards();
-
-                    delete(this);
-                }
-            };
-        }
-
-        private void RefreshTag()
-        {
-            stackPanelTag.Children.Clear();
-            stackPanelTag.Children.AddRange(task.Tags.Select(x => new TagUserControl(x)));
         }
 
         protected override void OnPointerMoved(PointerEventArgs e)
@@ -88,11 +51,10 @@ namespace KanbanBoard
             if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
             {
                 DataObject data = new DataObject();
-                data.Set("task", this);
+                data.Set("task", this.DataContext as TaskViewModel);
 
                 DragDrop.DoDragDrop(e, data, DragDropEffects.Move);
             }
-
         }
     }
 }

@@ -2,44 +2,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:KanbanBoard"
              x:Class="KanbanBoard.TaskUserControl"
              Padding="8"
              Background="{DynamicResource ChromeBlackMedium}">
-
-    <UserControl.Styles>
-        <Style Selector="Grid > TextBlock">
-            <Setter Property="FontSize" Value="24" />
-            <Setter Property="FontWeight" Value="Light" />
-        </Style>
-        <Style Selector="Grid > Button">
-            <Setter Property="FontSize" Value="16" />
-        </Style>
-    </UserControl.Styles>
-    
-    <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="Auto, *, Auto, Auto, Auto">
-        <TextBlock Name="textBlockTitle" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            Title
-        </TextBlock>
-        <Button Name="buttonEdit" Grid.Row="0" Grid.Column="3" Margin="8, 0, 8, 0">
-            
-        </Button>
-        <Button Name="buttonDelete" Grid.Row="0" Grid.Column="4">
-            
-        </Button>
-
-        <TextBlock Name="textBlockDescription" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="0, 8, 0, 0" FontSize="14" FontWeight="Regular">
-            Description
-        </TextBlock>
-        
-        <StackPanel
-            Name="stackPanelTag"
-            Grid.Row="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="5"
-            Margin="0, 8, 0, 0"
-            Orientation="Horizontal"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center" 
-            Spacing="4"/>
-    </Grid>
+  <UserControl.Styles>
+    <Style Selector="Grid > TextBlock">
+      <Setter Property="FontSize" Value="24" />
+      <Setter Property="FontWeight" Value="Light" />
+    </Style>
+    <Style Selector="Grid > Button">
+      <Setter Property="FontSize" Value="16" />
+    </Style>
+  </UserControl.Styles>
+  <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+    <TextBlock Grid.ColumnSpan="2" Text="{Binding Name}"/>
+    <Button Grid.Column="3" Command="{Binding EditTask}" Content="" Margin="8,0,8,0"/>
+    <Button Grid.Column="4" Command="{Binding DeleteTask}" Content=""/>
+    <TextBlock Grid.Row="1" Grid.ColumnSpan="5" Text="{Binding Description}"
+               FontSize="14" FontWeight="Regular" Margin="0,8,0,0"/>
+    <ItemsControl Grid.Row="2" Grid.ColumnSpan="5" Items="{Binding Tags}" Margin="0,8,0,0">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Spacing="4"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <local:TagUserControl DataContext="{Binding .}"/>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </Grid>
 </UserControl>

@@ -10,15 +10,11 @@
         HasSystemDecorations="False">
 
     <Border BorderBrush="{DynamicResource ChromeBlackMedium}" BorderThickness="2.2" Padding="16">
-        <Grid RowDefinitions="*, *, Auto" ColumnDefinitions="*, *">
-            <TextBlock Name="textBlockTitle" FontSize="24" FontWeight="Light" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 8">
-                Title
-            </TextBlock>
-            <TextBlock Name="textBlockBody" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 12">
-                Body
-            </TextBlock>
-            <Button Name="buttonYes" Grid.Row="2" Grid.Column="0" Margin="0, 0, 4, 0">Yes</Button>
-            <Button Name="buttonNo" Grid.Row="2" Grid.Column="1" Margin="4, 0, 0, 0">No</Button>
+        <Grid RowDefinitions="*,*,Auto" ColumnDefinitions="*,*">
+            <TextBlock FontSize="24" FontWeight="Light" Grid.ColumnSpan="2" Text="{Binding Title}" Margin="0,0,0,8"/>
+            <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Message}" Margin="0,0,0,12"/>
+            <Button Grid.Row="2" Content="Yes" Command="{Binding Yes}" Margin="0,0,4,0"/>
+            <Button Grid.Row="2" Grid.Column="1" Content="No" Command="{Binding No}" Margin="4,0,0,0"/>
         </Grid>
     </Border>
 </Window>

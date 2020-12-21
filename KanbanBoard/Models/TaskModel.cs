@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KanbanBoard.Models
 {
-    public class TaskModel
+    public class TaskModel : BaseModel
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public string Name { get; set; }
         public string Description { get; set; }
-        public List<string> Tags { get; set; } = new List<string>();
+        public List<TagModel> Tags { get; set; } = new List<TagModel>();
+
+        public TaskModel Clone()
+        {
+            return new TaskModel
+            {
+                Id = this.Id,
+                Name = this.Name,
+                Description = this.Description,
+                Tags = this.Tags.Select(t => t.Clone()).ToList(),
+            };
+        }
     }
 }

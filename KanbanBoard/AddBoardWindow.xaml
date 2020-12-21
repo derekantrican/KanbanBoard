@@ -9,16 +9,17 @@
         Width="400"
         Height="200">
     <Border BorderBrush="{DynamicResource ChromeBlackMedium}" BorderThickness="2.2" Padding="16">
-        <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, *">
-            <TextBlock Name="textBlockTitle" FontSize="24" FontWeight="Light" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 8">
-                Add Board
-            </TextBlock>
-            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 0, 0, 12">
-                <TextBlock Margin="0, 0, 0, 8" FontWeight="Bold">Name</TextBlock>
-                <TextBox Name="textBoxName" Watermark="Enter board name here" />
+        <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,*">
+            <TextBlock FontSize="24" FontWeight="Light" Grid.ColumnSpan="2" 
+                       Text="{Binding Title}" Margin="0,0,0,8"/>
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,12">
+                <TextBlock FontWeight="Bold" Text="Name" Margin="0,0,0,8"/>
+                <TextBox Watermark="Enter board name here" Text="{Binding Name}"/>
             </StackPanel>
-            <Button Name="buttonAdd" Grid.Row="2" Grid.Column="0" Margin="0, 0, 4, 0">Add</Button>
-            <Button Name="buttonCancel" Grid.Row="2" Grid.Column="1" Margin="4, 0, 0, 0">Cancel</Button>
+            <Button Grid.Row="2" Content="{Binding SaveButtonText}"
+                    Command="{Binding Save}" Margin="0,0,4,0"/>
+            <Button Grid.Row="2" Grid.Column="1" Content="Cancel"
+                    Command="{Binding Cancel}" Margin="4,0,0,0"/>
         </Grid>
     </Border>
 </Window>

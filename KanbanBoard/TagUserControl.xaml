@@ -5,5 +5,5 @@
              x:Class="KanbanBoard.TagUserControl"
              Padding="8"
              Background="{DynamicResource ChromeHigh}">
-    <TextBlock Name="textBlockTitle">Title</TextBlock>
+    <TextBlock Text="{Binding Name}"/>
 </UserControl>

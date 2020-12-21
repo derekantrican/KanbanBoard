@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace KanbanBoard.Models
 {
-    public class BoardModel
+    public class BoardModel : BaseModel
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public string Name { get; set; }
         public List<ColumnModel> Columns { get; set; } = new List<ColumnModel>();
+
+        public BoardModel Clone()
+        {
+            return new BoardModel
+            {
+                Id = this.Id,
+                Name = this.Name,
+                Columns = this.Columns.Select(c => c.Clone()).ToList(),
+            };
+        }
     }
 }

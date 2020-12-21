@@ -1,17 +1,12 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using KanbanBoard.Models;
+using KanbanBoard.ViewModels;
 
 namespace KanbanBoard
 {
     public class AddBoardWindow : Window
     {
-        BoardModel board;
-        TextBlock textBlockTitle;
-        TextBox textBoxName;
-        Button buttonAdd;
-
         public AddBoardWindow()
         {
             this.InitializeComponent();
@@ -20,35 +15,15 @@ namespace KanbanBoard
 #endif
         }
 
-        public AddBoardWindow(ref BoardModel board) : this()
+        public AddBoardWindow(AddBoardViewModel viewModel) : this()
         {
-            this.board = board;
-            textBlockTitle.Text = "Edit Board";
-            textBoxName.Text = board.Name;
-            buttonAdd.Content = "Save";
+            this.DataContext = viewModel;
+            viewModel.CloseDialog += (result) => Close(result);
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-
-            textBlockTitle = this.FindControl<TextBlock>("textBlockTitle");
-            textBoxName = this.FindControl<TextBox>("textBoxName");
-            buttonAdd = this.FindControl<Button>("buttonAdd");
-
-            buttonAdd.Click += (sender, e) =>
-            {
-                if (board == null)
-                    board = new BoardModel();
-
-                board.Name = textBoxName.Text;
-                Close(board);
-            };
-
-            this.FindControl<Button>("buttonCancel").Click += (sender, e) =>
-            {
-                Close(null);
-            };
         }
     }
 }

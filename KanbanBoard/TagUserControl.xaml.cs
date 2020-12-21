@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace KanbanBoard
@@ -9,11 +8,6 @@ namespace KanbanBoard
         public TagUserControl()
         {
             this.InitializeComponent();
-        }
-
-        public TagUserControl(string name) : this()
-        {
-            this.FindControl<TextBlock>("textBlockTitle").Text = name;
         }
 
         private void InitializeComponent()
