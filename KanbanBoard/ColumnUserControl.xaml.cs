@@ -58,6 +58,11 @@ namespace KanbanBoard
         private void OnDrop(object sender, DragEventArgs e)
         {
             TaskViewModel task = e.Data.Get("task") as TaskViewModel;
+
+            //Don't drag and drop to the same column (in the future this could be supported if we get the specific index to drop to)
+            if (task.Parent == this.DataContext)
+                return;
+
             task.Parent.DeleteTask(task);
             (this.DataContext as ColumnViewModel).AddTask(task);
         }
