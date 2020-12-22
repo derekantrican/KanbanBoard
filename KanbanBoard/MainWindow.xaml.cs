@@ -46,7 +46,7 @@ namespace KanbanBoard
 
             viewModel.OpenAddColumnDialog += () =>
             {
-                AddColumnWindow addColumn = new AddColumnWindow();
+                AddColumnWindow addColumn = new AddColumnWindow(new AddColumnViewModel());
                 ColumnViewModel result = addColumn.ShowDialogSync<ColumnViewModel>(this);
                 return result;
             };
