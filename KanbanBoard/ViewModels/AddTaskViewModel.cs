@@ -84,7 +84,7 @@ namespace KanbanBoard.ViewModels
             }
             set
             {
-                task.SetTags(new ObservableCollection<TagViewModel>(value?.Split(',')?.Select(t =>
+                task.SetTags(new ObservableCollection<TagViewModel>(value?.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)?.Select(t =>
                 {
                     Match color = Regex.Match(t, @"\((?<color>#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{8}){1,2})\)");
                     if (color.Success)
