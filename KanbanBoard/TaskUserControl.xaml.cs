@@ -20,6 +20,8 @@ namespace KanbanBoard
         {
             TaskViewModel viewModel = DataContext as TaskViewModel;
 
+            this.DoubleTapped += (sender, args) => viewModel.EditTask();
+
             if (viewModel.OpenEditTaskDialog == null)
             {
                 viewModel.OpenEditTaskDialog += (task) =>
