@@ -112,7 +112,7 @@ namespace KanbanBoard.ViewModels
                 TaskViewModel result = OpenAddTaskDialog();
                 if (result != null)
                 {
-                    AddTask(result);
+                    result.Parent.AddTask(result);
                 }
             }
         }

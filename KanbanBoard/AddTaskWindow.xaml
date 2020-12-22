@@ -24,6 +24,16 @@
           <TextBlock Text=" (optionally add hex colors in parentheses)" FontStyle="Italic" Margin="0,0,0,8"/>
         </StackPanel>
         <TextBox Watermark="Enter tags here (separated by commas)" Text="{Binding Tags}" Margin="0,0,0,8" />
+        <StackPanel Orientation="Horizontal">
+          <TextBlock FontWeight="Bold" Text="Column" VerticalAlignment="Center" Margin="5"/>
+          <ComboBox Width="250" Height="30" Items="{Binding Columns}" SelectedItem="{Binding Parent}" Margin="5">
+            <ComboBox.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding Name}"/>
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
       </StackPanel>
       <Button Grid.Row="2" Content="{Binding SaveButtonText}" Command="{Binding Save}" Margin="0,0,4,0"/>
       <Button Grid.Row="2" Grid.Column="1" Content="Cancel" Command="{Binding Cancel}" Margin="4,0,0,0"/>

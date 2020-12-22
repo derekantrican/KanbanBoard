@@ -82,7 +82,13 @@ namespace KanbanBoard.ViewModels
                 TaskViewModel result = OpenEditTaskDialog(this);
                 if (result != null)
                 {
-                    this.Parent.ReplaceTask(this, result);
+                    if (result.Parent == this.Parent)
+                        this.Parent.ReplaceTask(this, result);
+                    else
+                    {
+                        result.Parent.AddTask(result);
+                        this.Parent.DeleteTask(this);
+                    }
                 }
             }
         }

@@ -44,7 +44,7 @@ namespace KanbanBoard
             {
                 viewModel.OpenAddTaskDialog += () =>
                 {
-                    AddTaskWindow addTask = new AddTaskWindow(new AddTaskViewModel());
+                    AddTaskWindow addTask = new AddTaskWindow(new AddTaskViewModel() { Columns = viewModel.Parent.Columns, Parent = viewModel });
                     return addTask.ShowDialogSync<TaskViewModel>(Application.Current.ApplicationLifetime.GetMainWindow());
                 };
             }

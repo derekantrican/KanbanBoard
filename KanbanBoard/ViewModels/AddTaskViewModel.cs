@@ -11,6 +11,7 @@ namespace KanbanBoard.ViewModels
         private TaskViewModel task;
         private string title;
         private string saveButtonText;
+        private ObservableCollection<ColumnViewModel> columns = new ObservableCollection<ColumnViewModel>();
 
         public AddTaskViewModel()
         {
@@ -91,6 +92,33 @@ namespace KanbanBoard.ViewModels
                     else
                         return new TagViewModel { Name = t };
                 }) ?? new List<TagViewModel>()));
+                FirePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<ColumnViewModel> Columns
+        {
+            get
+            {
+                return columns;
+            }
+            set
+            {
+                columns = value;
+                FirePropertyChanged();
+                FirePropertyChanged(nameof(Parent));
+            }
+        }
+
+        public ColumnViewModel Parent
+        {
+            get
+            {
+                return task.Parent;
+            }
+            set
+            {
+                task.Parent = value;
                 FirePropertyChanged();
             }
         }
