@@ -46,17 +46,31 @@ namespace KanbanBoard
             AvaloniaXamlLoader.Load(this);
         }
 
+        PointerPoint downPoint;
+        protected override void OnPointerPressed(PointerPressedEventArgs e)
+        {
+            base.OnPointerPressed(e);
+            downPoint = e.GetCurrentPoint(this);
+        }
+
         protected override void OnPointerMoved(PointerEventArgs e)
         {
             base.OnPointerMoved(e);
 
-            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed && MovedMinimumDistance(e))
             {
+                downPoint = e.GetCurrentPoint(this);
                 DataObject data = new DataObject();
                 data.Set("task", this.DataContext as TaskViewModel);
 
                 DragDrop.DoDragDrop(e, data, DragDropEffects.Move);
             }
+        }
+
+        private bool MovedMinimumDistance(PointerEventArgs e)
+        {
+            return downPoint != null && Math.Abs(e.GetCurrentPoint(this).Position.X - downPoint.Position.X) >= 2 &&
+                Math.Abs(e.GetCurrentPoint(this).Position.Y - downPoint.Position.Y) >= 2;
         }
     }
 }
