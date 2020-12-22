@@ -15,14 +15,14 @@
       <Setter Property="FontSize" Value="16" />
     </Style>
   </UserControl.Styles>
-  <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+  <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="Auto,*,Auto,Auto,Auto,Auto">
     <TextBlock Classes="Title" Grid.ColumnSpan="2" Text="{Binding Name}" TextWrapping="Wrap"/>
-    <Button Grid.Column="3" Command="{Binding EditTask}" Content="" Height="30" Width="30"
+    <Button Grid.Column="4" Command="{Binding EditTask}" Content="&#xE104;" Height="30" Width="30"
             VerticalAlignment="Top" Padding="0" BorderThickness="0" Margin="8,0,8,0"/>
-    <Button Grid.Column="4" Command="{Binding DeleteTask}" Content="" Height="30" Width="30"
+    <Button Grid.Column="5" Command="{Binding DeleteTask}" Content="&#xE107;" Height="30" Width="30"
             VerticalAlignment="Top" Padding="0" BorderThickness="0"/>
     <TextBlock Grid.Row="1" Grid.ColumnSpan="5" Text="{Binding Description}"
-               FontSize="14" FontWeight="Regular" Margin="0,8,0,0"/>
+               FontSize="14" FontWeight="Regular"/>
     <ItemsControl Grid.Row="2" Grid.ColumnSpan="5" Items="{Binding Tags}" Margin="0,8,0,0">
       <ItemsControl.ItemsPanel>
         <ItemsPanelTemplate>

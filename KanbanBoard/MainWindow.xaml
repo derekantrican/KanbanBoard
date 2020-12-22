@@ -27,9 +27,9 @@
       </TabControl>
       <Menu Grid.Column="1">
         <MenuItem Command="{Binding Add}" Header="+"/>
-        <MenuItem Command="{Binding Edit}" Header=""
+        <MenuItem Command="{Binding Edit}" Header="&#xE104;"
                   IsVisible="{Binding SelectedBoard, Converter={StaticResource NotNullConverter}}"/>
-        <MenuItem Command="{Binding Delete}" Header=""
+        <MenuItem Command="{Binding Delete}" Header="&#xE107;"
                   IsVisible="{Binding SelectedBoard, Converter={StaticResource NotNullConverter}}"/>
       </Menu>
     </Grid>

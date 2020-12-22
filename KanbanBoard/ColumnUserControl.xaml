@@ -20,9 +20,9 @@
       <TextBlock Grid.ColumnSpan="2" Text="{Binding Name}"/>
       <TextBlock Grid.Column="3" Text="{Binding WorkItemCount}" Margin="16,0,32,0"/>
       <Button Grid.Column="4" Background="Black" BorderThickness="0"
-              Command="{Binding EditColumn}" Content="" Margin="0,0,4,0"/>
+              Command="{Binding EditColumn}" Content="&#xE104;" Margin="0,0,4,0"/>
       <Button Grid.Column="5" Background="Black" BorderThickness="0"
-              Command="{Binding DeleteColumn}" Content="" Margin="0,0,8,0"/>
+              Command="{Binding DeleteColumn}" Content="&#xE107;" Margin="0,0,8,0"/>
     </Grid>
     <ItemsControl Items="{Binding Tasks}">
       <ItemsControl.ItemsPanel>
