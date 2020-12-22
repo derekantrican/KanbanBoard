@@ -5,20 +5,22 @@
              xmlns:local="clr-namespace:KanbanBoard"
              x:Class="KanbanBoard.TaskUserControl"
              Padding="8"
-             Background="{DynamicResource ChromeBlackMedium}">
+             Background="{DynamicResource ChromeBlackMedium}"
+             MaxWidth="500">
   <UserControl.Styles>
-    <Style Selector="Grid > TextBlock">
-      <Setter Property="FontSize" Value="24" />
-      <Setter Property="FontWeight" Value="Light" />
+    <Style Selector="TextBlock.Title">
+      <Setter Property="FontSize" Value="18" />
     </Style>
     <Style Selector="Grid > Button">
       <Setter Property="FontSize" Value="16" />
     </Style>
   </UserControl.Styles>
   <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="Auto,*,Auto,Auto,Auto">
-    <TextBlock Grid.ColumnSpan="2" Text="{Binding Name}"/>
-    <Button Grid.Column="3" Command="{Binding EditTask}" Content="" Margin="8,0,8,0"/>
-    <Button Grid.Column="4" Command="{Binding DeleteTask}" Content=""/>
+    <TextBlock Classes="Title" Grid.ColumnSpan="2" Text="{Binding Name}" TextWrapping="Wrap"/>
+    <Button Grid.Column="3" Command="{Binding EditTask}" Content="" Height="30" Width="30"
+            VerticalAlignment="Top" Padding="0" BorderThickness="0" Margin="8,0,8,0"/>
+    <Button Grid.Column="4" Command="{Binding DeleteTask}" Content="" Height="30" Width="30"
+            VerticalAlignment="Top" Padding="0" BorderThickness="0"/>
     <TextBlock Grid.Row="1" Grid.ColumnSpan="5" Text="{Binding Description}"
                FontSize="14" FontWeight="Regular" Margin="0,8,0,0"/>
     <ItemsControl Grid.Row="2" Grid.ColumnSpan="5" Items="{Binding Tags}" Margin="0,8,0,0">
