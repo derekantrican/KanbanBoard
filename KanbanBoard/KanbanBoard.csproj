@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <ApplicationIcon>Kanban.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">
