@@ -25,9 +25,13 @@
     <None Remove="AddColumnWindow.xaml" />
     <None Remove="AddTaskWindow.xaml" />
     <None Remove="ColumnUserControl.xaml" />
+    <None Remove="Kanban.png" />
     <None Remove="MessageBoxWindow.xaml" />
     <None Remove="TagUserControl.xaml" />
     <None Remove="TaskUserControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Kanban.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />

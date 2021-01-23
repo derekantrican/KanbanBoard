@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:KanbanBoard"
         xmlns:converters="clr-namespace:KanbanBoard.Converters"
         x:Class="KanbanBoard.MainWindow"
-        Title="Kanban Board"
+        Title="Kanban Board" Icon="Kanban.png"
         WindowState="Maximized">
   <Window.Resources>
     <converters:IsNotNullConverter x:Key="NotNullConverter"/>
